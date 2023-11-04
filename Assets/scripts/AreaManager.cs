@@ -36,6 +36,7 @@ public class AreaManager : MonoBehaviour
             
         }
 
+        container.GetComponent<AreaContainer>().SetColor(color);
         AddContainer(container);
     }
 
