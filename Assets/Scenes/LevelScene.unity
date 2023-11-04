@@ -256,13 +256,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _x1: -84
-  _x2: -80
-  _x3: -80
+  _x2: -75
+  _x3: -75
   _x4: -85
   _x5: -85
   _x6: -84
-  _y1: 2
-  _y2: 2
+  _y1: 10
+  _y2: 10
   _y3: -5
   _y4: -5
   _y5: -2

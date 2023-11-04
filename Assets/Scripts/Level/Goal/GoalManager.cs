@@ -46,6 +46,11 @@ public class GoalManager : MonoBehaviour
         {
             OnGoalSolved.Invoke(solvedGoal);    
         }
+
+        for (int i = 0; i < itemsToScore.Count; i++)
+        {
+            
+        }
         
         return outcomeColor;
     }
@@ -77,7 +82,7 @@ public class GoalManager : MonoBehaviour
         {
             OnGoalSolved.Invoke(null);    
         }
-
+        
         initialized = true;
     }
 
