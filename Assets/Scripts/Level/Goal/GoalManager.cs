@@ -38,7 +38,7 @@ public class GoalManager : MonoBehaviour
             goals[i] = goals[i + 1];
         }
 
-        goals[goals.Length] = getNewGoal(0);
+        goals[^1] = getNewGoal(0);
 
         Color outcomeColor = solvedGoal.SolveWith(itemsToScore);
 

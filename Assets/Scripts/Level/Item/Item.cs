@@ -6,6 +6,7 @@ public class Item : MonoBehaviour
 {
     private bool usedForScore = false;
 
+    private Color myColor;
 
     public void setUsedForScore(bool isUsed)
     {
@@ -16,10 +17,16 @@ public class Item : MonoBehaviour
     {
         return usedForScore;
     }
-    
+
+    public void SetColor(Color c)
+    {
+        myColor = c;
+    }
+
+     
     public Color GetColor()
     {
-        return Colors.colorList[2];
+        return myColor;
     }
 
     public bool IsEnclosedBy(Vector3[] polygon)

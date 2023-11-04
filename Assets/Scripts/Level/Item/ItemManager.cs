@@ -39,6 +39,7 @@ public class ItemManager : MonoBehaviour
                 SpriteRenderer newSprite = newObject.GetComponent<SpriteRenderer>();
                 newSprite.color = Colors.colorList[myRandom.NextInt(0,Colors.colorList.Length)];
                 items[i] = newObject.GetComponent<Item>();
+                items[i].SetColor(newSprite.color);
                 newObject.parent = transform;
             }
         }
