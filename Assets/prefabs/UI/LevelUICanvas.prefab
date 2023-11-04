@@ -6798,6 +6798,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8852246745213130841}
+  - component: {fileID: 7346299556525394438}
   m_Layer: 5
   m_Name: CurrentGoal
   m_TagString: Untagged
@@ -6828,6 +6829,22 @@ RectTransform:
   m_AnchoredPosition: {x: -226.1, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7346299556525394438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6504931330091740361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d676c208864670478942db6b5a44862, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  previewRange: 0
+  panel0: {fileID: 6573703026565462337}
+  panel1: {fileID: 494042467161685930}
+  panel2: {fileID: 9194835496701378348}
 --- !u!1 &6592859281464579270
 GameObject:
   m_ObjectHideFlags: 0
@@ -7514,6 +7531,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7163189966873130317}
+  - component: {fileID: 301636278370402584}
   m_Layer: 5
   m_Name: NextGoal
   m_TagString: Untagged
@@ -7544,6 +7562,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &301636278370402584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6995738894242351785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d676c208864670478942db6b5a44862, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  previewRange: 1
+  panel0: {fileID: 8844900480474303473}
+  panel1: {fileID: 4247353845920838095}
+  panel2: {fileID: 2453033804312013159}
 --- !u!1 &7072871054707431167
 GameObject:
   m_ObjectHideFlags: 0
