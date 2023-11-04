@@ -36,9 +36,6 @@ public class ItemManager : MonoBehaviour
             minX = (int) cameraBounds.min.x;
             maxY = (int) cameraBounds.max.y;
             maxX = (int) cameraBounds.max.x;
-
-
-
         }
         else
         {
