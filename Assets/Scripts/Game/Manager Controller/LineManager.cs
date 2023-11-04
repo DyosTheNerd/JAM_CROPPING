@@ -3,14 +3,15 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LineManager : MonoBehaviour
 {
     public static LineManager Instance { get; private set; }
 
-    //private List<Vector2> _linePoints = new List<Vector2>();
-    private List<LinePoint> _linePoints = new List<LinePoint>();
+    private List<LinePoints> _lines = new List<LinePoints>();
+    //private List<Line> _lines = new List<Line>();
 
     [Header("References")]
     [SerializeField] private Transform lineContainer;
@@ -20,32 +21,56 @@ public class LineManager : MonoBehaviour
     [SerializeField] private bool debug = true;
     [SerializeField] private float colliderEnableDelay = 0.1f;
 
-    public delegate void EncloseEvent(IntersectionStruct data);
+    public delegate void EncloseEvent(IntersectionArgs data);
 
     public event EncloseEvent OnEnclose;
     
-    public LinePoint LastLinePoint => _linePoints[_linePoints.Count - 1];
+    public LinePoints LastLinePoint => _lines[_lines.Count - 1];
+    //public Line LastLine => _lines[_lines.Count - 1];
+
+    List<Vector2> intersectionTest = new List<Vector2>();
+    List<Vector2> remTest = new List<Vector2>();
+    List<Vector2> drawTest = new List<Vector2>();
 
     private void OnDrawGizmos()
     {
         if (!debug)
             return;
 
-        foreach (LinePoint lp in _linePoints)
+        foreach (LinePoints lp in _lines)
         {
             Gizmos.color = lp.isIntersection ? Color.red : Color.green;
-            Gizmos.DrawCube(lp.point, new Vector3(1, 1, 0));
+            Gizmos.DrawCube(lp.end, new Vector3(1, 1, 0));
 
             Gizmos.color = new Color(1, 1, 1, 0.25f);
-            Gizmos.DrawLine(lp.pointPrevious, lp.point);
+            Gizmos.DrawLine(lp.start, lp.end);
 
             if (lp.isIntersection)
             {
                 Gizmos.color = Color.red;
-                Gizmos.DrawLine(lp.point, lp.pointClockwise.Value);
+                Gizmos.DrawLine(lp.end, lp.intersectedLine.start);
 
                 Gizmos.color = Color.blue;
-                Gizmos.DrawLine(lp.point, lp.pointAntiClockwise.Value);
+                Gizmos.DrawLine(lp.end, lp.intersectedLine.end);
+            }
+
+
+            foreach (Vector2 p in intersectionTest)
+            {
+                Gizmos.color = Color.white;
+                Gizmos.DrawSphere(p, 1.2f);
+            }
+
+            foreach (Vector2 p in remTest)
+            {
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawSphere(p, 1.2f);
+            }
+
+            foreach (Vector2 p in drawTest)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawCube(p, new Vector3(1.25f, 1.25f, 0));
             }
         }
     }
@@ -58,48 +83,68 @@ public class LineManager : MonoBehaviour
             Instance = this;
     }
 
-    public LinePoint AddNewLinePoint(Vector2 point)
+    public LinePoints AddNewLinePoint(Vector2 point)
     {
-        LinePoint newPoint;
+        LinePoints linePoints;
 
         // checks if the line point array has more than 0 points (to create a line!)
-        if (_linePoints.Count > 0)
+        if (_lines.Count > 0)
         {
             // Instantiate new line between the last point in the list and the current point.
             Line line = Instantiate<Line>(linePrefab, lineContainer);
-            line.Initialize(LastLinePoint.point, point);
-            line.colliderEnableDelay = colliderEnableDelay;
 
-            newPoint = new LinePoint(LastLinePoint.point, point);
+            linePoints = new LinePoints(LastLinePoint.end, point);
+
+            line.Initialize(linePoints);
+            line.colliderEnableDelay = colliderEnableDelay;
 
             Debug.Log($"Line added: '{LastLinePoint} TO {point}'", line);
         }
         else
-            newPoint = new LinePoint(point);
+            linePoints = new LinePoints(point);
 
-        _linePoints.Add(newPoint);
+        _lines.Add(linePoints);
 
-        return newPoint;
+        return linePoints;
     }
 
     public void AddNewLineIntersection(Vector2 intersection, Line line)
     {
-        // checks if the line point array has more than 0 points (to create a line!)
-
-        // Instantiate new line between the start and the intersection.
-
         AddNewLinePoint(intersection);
 
-        _linePoints[_linePoints.Count - 1].pointClockwise = line.pointStart;
-        _linePoints[_linePoints.Count - 1].pointAntiClockwise = line.pointEnd;
+        _lines[_lines.Count - 1].intersectedLine = line;
 
-        IntersectionStruct stct = new IntersectionStruct(); 
-        
-        OnEnclose?.Invoke(stct);
+        List<Vector2> result = new List<Vector2>();
+        result.Add(intersection);
+
+        for (int i = _lines.Count - 2; i > 0; i--)
+        {
+            result.Add(_lines[i].end);
+
+            //if (_lines[i].isIntersection)
+            //    _lines[i].intersectedLine.
+
+            if (_lines[i].end == line.end)
+            {
+                remTest.Add(_lines[i].end);
+                //_lines[i].end = intersection;
+                intersectionTest.Add(intersection);
+                Debug.Break();
+                break;
+            }
+        }
+
+        drawTest = result;
+        OnEnclose?.Invoke(new IntersectionArgs(result.ToArray()));
     }
 }
 
+public struct IntersectionArgs
+{
+    public IntersectionArgs(Vector2[] points)
+    {
+        this.points = points;
+    }
 
-public struct IntersectionStruct{
-    
+    public Vector2[] points { get; private set; }
 }

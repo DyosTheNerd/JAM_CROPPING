@@ -17,8 +17,14 @@ public class Line : MonoBehaviour
     [Header("Settings")]
     public float colliderEnableDelay = 0.1f;
 
-    public Vector2 pointStart { get; private set; }
-    public Vector2 pointEnd { get; private set; }
+    public LinePoints points;
+
+    public Vector2 start => points.start;
+    public Vector2 end => points.end;
+
+    // REMOVE
+    //public LinePoints pointStart { get; private set; }
+    //public LinePoints pointEnd { get; private set; }
 
     IEnumerator Start()
     {
@@ -27,15 +33,19 @@ public class Line : MonoBehaviour
         edgeCollider.enabled = true;
     }
 
-    public void Initialize(Vector2 pointA, Vector2 pointB)
+    public void Initialize(Vector2 pointStart, Vector2 pointEnd)
     {
-        edgeCollider.SetPoints(new List<Vector2> { pointA, pointB });
+        Initialize(new LinePoints(pointStart, pointEnd));
+    }
 
-        lineRenderer.SetPosition(0, pointA);
-        lineRenderer.SetPosition(1, pointB);
+    public void Initialize(LinePoints linePoints)
+    {
+        points = linePoints;
 
-        pointStart = pointA;
-        pointEnd = pointB;
+        edgeCollider.SetPoints(new List<Vector2> { start, end });
+
+        lineRenderer.SetPosition(0, start);
+        lineRenderer.SetPosition(1, end);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -44,48 +54,54 @@ public class Line : MonoBehaviour
         {
             //Line line = collision.GetComponent<Line>();
 
-            Debug.Log($"Player: {pointStart} - {pointEnd}", this);
+            Debug.Log($"Player: {points.start} - {points.end}", this);
             //LineManager.Instance.AddNewLinePoint(collision.transform.position);
             LineManager.Instance.AddNewLineIntersection(collision.transform.position, this);
         }
     }
 }
 
-public class LineData
-{
-
-}
-
 public class LinePoint
 {
-    public LinePoint(Vector2 currentPoint)
+    public LinePoint(Vector2 point)
     {
-        this.pointPrevious = currentPoint;
-        this.point = currentPoint;
-        this.pointClockwise = null;
-        this.pointAntiClockwise = null;
+        this.point = point;
     }
 
-    public LinePoint(Vector2 previousPoint, Vector2 currentPoint)
+    public Vector2 point { get; private set; }
+
+    public LinePoint up { get; set; }
+    public LinePoint down { get; set; }
+    public LinePoint left { get; set; }
+    public LinePoint right { get; set; }
+}
+
+public class LinePoints
+{
+    public LinePoints(Vector2 start)
     {
-        this.pointPrevious = previousPoint;
-        this.point = currentPoint;
-        this.pointClockwise = null;
-        this.pointAntiClockwise = null;
+        this.start = start;
+        this.end = start;
+        this.intersectedLine = null;
     }
 
-    public LinePoint(Vector2 previousPoint, Vector2 currentPoint, Vector2 clockwisePoint, Vector2 antiClockwisePoint)
+    public LinePoints(Vector2 start, Vector2 end)
     {
-        this.pointPrevious = previousPoint;
-        this.point = currentPoint;
-        this.pointClockwise = clockwisePoint;
-        this.pointAntiClockwise = antiClockwisePoint;
+        this.start = start;
+        this.end = end;
+        this.intersectedLine = null;
     }
 
-    public Vector2 point { get; set; }
-    public Vector2 pointPrevious { get; set; }
-    public Vector2? pointClockwise { get; set; }
-    public Vector2? pointAntiClockwise { get; set; }
+    public LinePoints(Vector2 previousPoint, Vector2 currentPoint, Line line)
+    {
+        this.start = previousPoint;
+        this.end = currentPoint;
+        this.intersectedLine = line;
+    }
 
-    public bool isIntersection => pointClockwise.HasValue & pointAntiClockwise.HasValue;
+    public Vector2 start { get; set; }
+    public Vector2 end { get; set; }
+    public Line intersectedLine { get; set; }
+
+    public bool isIntersection => intersectedLine != null;
 }
