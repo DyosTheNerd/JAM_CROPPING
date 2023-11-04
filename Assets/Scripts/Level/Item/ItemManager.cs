@@ -16,33 +16,62 @@ public class ItemManager : MonoBehaviour
     
     private Item[] items;
 
-    public static ItemManager instance; 
+    public static ItemManager instance;
+
+    private Random myRandom;
     
     void Start()
     {
+        Camera mainCamera = Camera.main; // Replace with your camera reference if needed
+
+        if (mainCamera != null)
+        {
+            // Get the camera's world space bounds
+            float cameraHeight = 2.0f * mainCamera.orthographicSize;
+            float cameraWidth = cameraHeight * mainCamera.aspect;
+            Vector3 cameraCenter = mainCamera.transform.position;
+            Bounds cameraBounds = new Bounds(cameraCenter, new Vector3(cameraWidth, cameraHeight, 0));
+
+            minY = (int) cameraBounds.min.y;
+            minX = (int) cameraBounds.min.x;
+            maxY = (int) cameraBounds.max.y;
+            maxX = (int) cameraBounds.max.x;
+        }
+        else
+        {
+            Debug.LogWarning("Camera not found.");
+        }
+        
+        
         instance = this;
+        GenerateLevel();
     }
     
     
     public void GenerateLevel()
     {
-        Random r = new Random();
-        r.InitState(123456);
+        initializeRandom();
         items = new Item[numberOfItems];
         if (itemPrefab != null)
         {
             for (int i = 0; i < numberOfItems; i++)
             {
                 Transform newObject = Instantiate(itemPrefab);
-                newObject.position = new Vector3(r.NextInt(minX,maxX), r.NextInt(minY,maxY), 0);
+                newObject.position = new Vector3(myRandom.NextInt(minX,maxX),myRandom.NextInt(minY,maxY), 0);
                 SpriteRenderer newSprite = newObject.GetComponent<SpriteRenderer>();
-                newSprite.color = Colors.colorList[r.NextInt(0,Colors.colorList.Length)];
+                newSprite.color = Colors.colorList[myRandom.NextInt(0,Colors.colorList.Length)];
                 items[i] = newObject.GetComponent<Item>();
+                items[i].SetColor(newSprite.color);
                 newObject.parent = transform;
             }
         }
     }
 
+    private void initializeRandom()
+    {
+        myRandom = LevelManager.instance.ItemsRandom;
+    }
+    
     public void EncloseArea(Vector3[] polygon)
     {
         Color areaColor = _scoreItemsAndDetermineColor(polygon);

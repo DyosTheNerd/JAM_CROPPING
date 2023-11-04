@@ -13,7 +13,7 @@ public class AreaContainer : MonoBehaviour
 
     public void SetColor(Color c)
     {
-        Debug.Log("setting color " + c);
+
         SpriteRenderer[] renderers = GetComponentsInChildren<SpriteRenderer>();
         for (int i = 0; i < renderers.Length; i++)
         {

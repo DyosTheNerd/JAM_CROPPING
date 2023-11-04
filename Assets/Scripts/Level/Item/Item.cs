@@ -4,21 +4,29 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private bool usedForScore = false;
+
+    private Color myColor;
+
+    public void setUsedForScore(bool isUsed)
     {
-        
+        usedForScore = isUsed;
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool isUsedForScore()
     {
-        
+        return usedForScore;
     }
 
+    public void SetColor(Color c)
+    {
+        myColor = c;
+    }
+
+     
     public Color GetColor()
     {
-        return Colors.colorList[2];
+        return myColor;
     }
 
     public bool IsEnclosedBy(Vector3[] polygon)
