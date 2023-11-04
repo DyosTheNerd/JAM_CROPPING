@@ -17,6 +17,7 @@ public static class MAIN
     public struct TAGS
     {
         public const string PLAYER = "Player";
+        public const string LINE = "Line";
     }
 
     public struct LAYERS
@@ -35,6 +36,7 @@ public static class MAIN
         public struct BUTTON
         {
             public const string CANCEL = "Cancel";
+            public const string ENTER = "Enter";
         }
     }
     #endregion
