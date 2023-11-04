@@ -29,6 +29,11 @@ public class ScoreManager : MonoBehaviour
     }
 
 
+
+    /* DOES NOT SORT LIST/DICTIONARY.
+     * Sorting must be done separately.
+     * However it does select the top scorers, just not in order.
+     */
     public void getScores(GetScoreCallback callback)
     {
 
@@ -70,7 +75,6 @@ public class ScoreManager : MonoBehaviour
         ScoreModel score = new ScoreModel();
         score.score = UnityEngine.Random.Range(0, 1000000);
         postScore(score, null);
-        Debug.Log("Score loading.");
         getScores(null);
     }
 
