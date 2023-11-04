@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private bool usedForScore = false;
+
+
+    public void setUsedForScore(bool isUsed)
     {
-        
+        usedForScore = isUsed;
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool isUsedForScore()
     {
-        
+        return usedForScore;
     }
-
+    
     public Color GetColor()
     {
         return Colors.colorList[2];

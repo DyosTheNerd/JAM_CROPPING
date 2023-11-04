@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = Unity.Mathematics.Random;
 
@@ -25,15 +23,10 @@ public class LevelManager : MonoBehaviour
         initializeRandoms(123);
     }
     
-    
-    void Start()
-    {
-      
-    }
 
     void initializeRandoms(uint seed)
     {
-        levelMasterRandom = new Random(12345);
+        levelMasterRandom = new Random(1234485);
         goalsRandom = new Random(levelMasterRandom.NextUInt());
         itemsRandom = new Random(levelMasterRandom.NextUInt());
     }

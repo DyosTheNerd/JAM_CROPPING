@@ -38,16 +38,16 @@ public class GoalManager : MonoBehaviour
             goals[i] = goals[i + 1];
         }
 
-        goals[goals.Length] = getNewGoal();
+        goals[goals.Length] = getNewGoal(0);
 
-        solvedGoal.SolveWith(itemsToScore);
+        Color outcomeColor = solvedGoal.SolveWith(itemsToScore);
 
         if (OnGoalSolved != null)
         {
             OnGoalSolved.Invoke(solvedGoal);    
         }
         
-        return itemsToScore[0].GetColor();
+        return outcomeColor;
     }
 
     public Goal GetFutureGoal(int range)
@@ -69,7 +69,7 @@ public class GoalManager : MonoBehaviour
 
         for (int i = 0; i < queueSize; i++)
         {
-            Goal g = getNewGoal();
+            Goal g = getNewGoal(0);
             goals[i] = g;
         }
         
@@ -81,9 +81,27 @@ public class GoalManager : MonoBehaviour
         initialized = true;
     }
 
-    private Goal getNewGoal()
+    private Goal getNewGoal(int pTargetNumber)
     {
-        return new Goal();
+        int numberOfTargets = pTargetNumber;
+        if (pTargetNumber == null || pTargetNumber == 0)
+        {
+            numberOfTargets = myRandom.NextInt(1, 4);    
+        }
+        
+        Goal newGoal = new Goal();
+
+        Color[] targetColors = new Color[numberOfTargets];
+
+        for (int i = 0; i < numberOfTargets; i++)
+        {
+            targetColors[i] = Colors.colorList[myRandom.NextInt(0, Colors.colorList.Length)];
+        }
+
+
+        newGoal.SetColors(targetColors);
+
+        return newGoal;
     }
     
 }

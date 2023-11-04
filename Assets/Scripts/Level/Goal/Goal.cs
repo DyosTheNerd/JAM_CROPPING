@@ -4,12 +4,53 @@ using UnityEngine;
 public class Goal
 {
 
+    private GoalComponent[] myComponents;
+
+    private bool isSolved = false;
+    
+    
     public Color GetColor(int i)
     {
-        return Colors.colorList[i];
+        if (i < myComponents.Length)
+        {
+            return myComponents[i]._color;
+        }
+
+        return Colors.grey;
     }
-    public void SolveWith(List<Item> itemsToScore)
+    public Color SolveWith(List<Item> itemsToScore)
     {
+        for (int i = 0; i < myComponents.Length; i++)
+        {  
+            for (int k = 0; k < itemsToScore.Count; k++)
+            {
+                if (!itemsToScore[k].isUsedForScore())
+                {
+                    if (myComponents[i]._color.Equals(itemsToScore[k].GetColor()))
+                    {
+                        myComponents[i].solved = true;
+                        itemsToScore[k].setUsedForScore(true);
+                        break;
+                    }
+                }
+            }
+        }
+        return getSolutionColor();
+    }
+
+    private Color getSolutionColor()
+    {
+        return Colors.colorList[0];
+    }
+
+    public void SetColors(Color[] targetColors)
+    {
+        myComponents = new GoalComponent[targetColors.Length];
+        
+        for (int i = 0; i < targetColors.Length; i++)
+        {
+            myComponents[i] = new GoalComponent(targetColors[i]);
+        }
         
     }
 }
