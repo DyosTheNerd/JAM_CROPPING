@@ -42,32 +42,14 @@ public class GoalManager : MonoBehaviour
 
     public void EncloseArea(Vector3[] polygon)
     {
-        Mesh mesh = new Mesh();
-
-        Vector3[] vertices = new Vector3[]
-        {
-            polygon[0],polygon[1],polygon[2]
-        };
-
-        int[] triangles = new int[]
-        {
-            0, 1, 2 
-        };
-
-        mesh.vertices = vertices;
-        mesh.triangles = triangles;
-
-
-        GameObject polygonObject = new GameObject("Polygon");
-        MeshFilter meshFilter = polygonObject.AddComponent<MeshFilter>();
-        MeshRenderer meshRenderer = polygonObject.AddComponent<MeshRenderer>();
-        meshRenderer.material.color = Colors.colorList[1];
-
-        meshFilter.mesh = mesh;
-
-        // You may need to assign a material to the mesh renderer for it to be visible.
-
-        // Adjust the position, rotation, and scale of the polygonObject as needed.
-        polygonObject.transform.position = Vector3.back;
+        Color areaColor = _determineColor(polygon);
+        AreaManager.instance.DrawArea(areaColor,polygon);
+        
     }
+
+    private Color _determineColor(Vector3[] polygon)
+    {
+        return Colors.colorList[0];
+    }
+    
 }
