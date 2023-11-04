@@ -1,21 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = Unity.Mathematics.Random;
 
-public class GoalManager : MonoBehaviour
+public class ItemManager : MonoBehaviour
 {
-    [SerializeField] private Transform goalPrefab;
+    [FormerlySerializedAs("goalPrefab")] [SerializeField] private Transform itemPrefab;
 
-    [SerializeField] private int numberOfGoals;
+    [FormerlySerializedAs("numberOfGoals")] [SerializeField] private int numberOfItems;
 
     private int minY = -9;
     private int maxY = 9;
     private int minX = -103;
     private int maxX = -73;
     
-    private Goal[] goals;
+    private Item[] items;
 
-    public static GoalManager instance; 
+    public static ItemManager instance; 
     
     void Start()
     {
@@ -27,16 +28,16 @@ public class GoalManager : MonoBehaviour
     {
         Random r = new Random();
         r.InitState(123456);
-        goals = new Goal[numberOfGoals];
-        if (goalPrefab != null)
+        items = new Item[numberOfItems];
+        if (itemPrefab != null)
         {
-            for (int i = 0; i < numberOfGoals; i++)
+            for (int i = 0; i < numberOfItems; i++)
             {
-                Transform newObject = Instantiate(goalPrefab);
+                Transform newObject = Instantiate(itemPrefab);
                 newObject.position = new Vector3(r.NextInt(minX,maxX), r.NextInt(minY,maxY), 0);
                 SpriteRenderer newSprite = newObject.GetComponent<SpriteRenderer>();
                 newSprite.color = Colors.colorList[r.NextInt(0,Colors.colorList.Length)];
-                goals[i] = newObject.GetComponent<Goal>();
+                items[i] = newObject.GetComponent<Item>();
                 newObject.parent = transform;
             }
         }
@@ -44,29 +45,29 @@ public class GoalManager : MonoBehaviour
 
     public void EncloseArea(Vector3[] polygon)
     {
-        Color areaColor = _determineColor(polygon);
+        Color areaColor = _scoreItemsAndDetermineColor(polygon);
         AreaManager.instance.DrawArea(areaColor,polygon);
         
     }
 
-    private Color _determineColor(Vector3[] polygon)
+    private Color _scoreItemsAndDetermineColor(Vector3[] polygon)
     {
-        List<Goal> enclosedGoals = new List<Goal>();
+        List<Item> enclosedGoals = new List<Item>();
         
         
-        for (int i = 0;( goals != null) && i < goals.Length; i++)
+        for (int i = 0;( items != null) && i < items.Length; i++)
         {
             
-            if (goals[i].IsEnclosedBy(polygon))
+            if (items[i].IsEnclosedBy(polygon))
             {
-                enclosedGoals.Add(goals[i]);
+                enclosedGoals.Add(items[i]);
             }
         }
 
         if (enclosedGoals.Count > 0)
         {
-            
-            return enclosedGoals[0].GetColor();
+
+            return GoalManager.instance.ScoreItemsAndDetermineColor(enclosedGoals);
         }
         
         return Colors.grey;

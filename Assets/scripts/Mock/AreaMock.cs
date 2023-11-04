@@ -102,7 +102,7 @@ public class AreaMock : MonoBehaviour
         Vector3 vec4 = new Vector3(_x4, _y4, 0);
         Vector3 vec5 = new Vector3(_x5, _y5, 0);
         Vector3 vec6 = new Vector3(_x6, _y6, 0);
-        GoalManager.instance.EncloseArea(new Vector3[]{vec1,vec2,vec3,vec4,vec5,vec6});
+        ItemManager.instance.EncloseArea(new Vector3[]{vec1,vec2,vec3,vec4,vec5,vec6});
     }
     
     public void Paint4()
@@ -111,7 +111,7 @@ public class AreaMock : MonoBehaviour
         Vector3 vec2 = new Vector3(_x2, _y2, 0);
         Vector3 vec3 = new Vector3(_x3, _y3, 0);
         Vector3 vec4 = new Vector3(_x4, _y4, 0);
-        GoalManager.instance.EncloseArea(new Vector3[]{vec1,vec2,vec3,vec4});
+        ItemManager.instance.EncloseArea(new Vector3[]{vec1,vec2,vec3,vec4});
     }
     
 }
