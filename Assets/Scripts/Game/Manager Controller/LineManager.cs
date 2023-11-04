@@ -20,6 +20,10 @@ public class LineManager : MonoBehaviour
     [SerializeField] private bool debug = true;
     [SerializeField] private float colliderEnableDelay = 0.1f;
 
+    public delegate void EncloseEvent(IntersectionStruct data);
+
+    public event EncloseEvent OnEnclose;
+    
     public LinePoint LastLinePoint => _linePoints[_linePoints.Count - 1];
 
     private void OnDrawGizmos()
@@ -88,5 +92,14 @@ public class LineManager : MonoBehaviour
 
         _linePoints[_linePoints.Count - 1].pointClockwise = line.pointStart;
         _linePoints[_linePoints.Count - 1].pointAntiClockwise = line.pointEnd;
+
+        IntersectionStruct stct = new IntersectionStruct(); 
+        
+        OnEnclose?.Invoke(stct);
     }
+}
+
+
+public struct IntersectionStruct{
+    
 }
