@@ -16,6 +16,7 @@ public class LineManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform lineContainer;
     [SerializeField] private Line linePrefab;
+    [SerializeField] private Transform CornerPrefab;
 
     [Header("Settings")]
     [SerializeField] private bool debug = true;
@@ -98,6 +99,8 @@ public class LineManager : MonoBehaviour
             line.Initialize(linePoints);
             line.colliderEnableDelay = colliderEnableDelay;
 
+            InitializeCorner(point);
+            
             Debug.Log($"Line added: '{LastLinePoint} TO {point}'", line);
         }
         else
@@ -108,6 +111,15 @@ public class LineManager : MonoBehaviour
         return linePoints;
     }
 
+    /** To keep the corner sharp */
+    private void InitializeCorner(Vector2 point)
+    {
+        Transform newCorner = Instantiate(CornerPrefab);
+        newCorner.position = new Vector3(point.x, point.y, 0);
+        newCorner.SetParent(lineContainer);
+    }
+    
+    
     public void AddNewLineIntersection(Vector2 intersection, Line line)
     {
         AddNewLinePoint(intersection);

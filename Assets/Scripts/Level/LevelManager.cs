@@ -16,19 +16,19 @@ public class LevelManager : MonoBehaviour
     public Random ItemsRandom => itemsRandom;
 
     private Random levelMasterRandom;
-    
+
     private void OnEnable()
     {
         instance = this;
-        initializeRandoms(123);
+        initializeRandoms(SeedSingleton.getInstance().seed);
     }
-    
+
 
     void initializeRandoms(uint seed)
     {
-        levelMasterRandom = new Random(1234485);
+        Debug.Log("seed is" + seed);
+        levelMasterRandom = new Random(seed);
         goalsRandom = new Random(levelMasterRandom.NextUInt());
         itemsRandom = new Random(levelMasterRandom.NextUInt());
     }
-    
 }
