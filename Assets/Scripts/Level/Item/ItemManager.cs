@@ -22,7 +22,32 @@ public class ItemManager : MonoBehaviour
     
     void Start()
     {
+        Camera mainCamera = Camera.main; // Replace with your camera reference if needed
+
+        if (mainCamera != null)
+        {
+            // Get the camera's world space bounds
+            float cameraHeight = 2.0f * mainCamera.orthographicSize;
+            float cameraWidth = cameraHeight * mainCamera.aspect;
+            Vector3 cameraCenter = mainCamera.transform.position;
+            Bounds cameraBounds = new Bounds(cameraCenter, new Vector3(cameraWidth, cameraHeight, 0));
+
+            minY = (int) cameraBounds.min.y;
+            minX = (int) cameraBounds.min.x;
+            maxY = (int) cameraBounds.max.y;
+            maxX = (int) cameraBounds.max.x;
+
+
+
+        }
+        else
+        {
+            Debug.LogWarning("Camera not found.");
+        }
+        
+        
         instance = this;
+        GenerateLevel();
     }
     
     
