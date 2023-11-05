@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    private bool usedForScore = false;
+    public bool usedForScore = false;
 
     private Color myColor;
+
+    private SpriteRenderer myRenderer;
+    
+    private void Start()
+    {
+        myRenderer = GetComponent<SpriteRenderer>();
+    }
 
     public void setUsedForScore(bool isUsed)
     {
@@ -23,7 +30,22 @@ public class Item : MonoBehaviour
         myColor = c;
     }
 
-     
+    public bool enclosed = false;
+    
+    public bool isEnclosed()
+    {
+        return enclosed;
+    }
+
+    public void SetEnclosed(bool newValue)
+    {
+        enclosed = newValue;
+
+
+        myRenderer.color = new Color(myRenderer.color.r, myRenderer.color.g, myRenderer.color.b, 0);
+    }
+    
+    
     public Color GetColor()
     {
         return myColor;

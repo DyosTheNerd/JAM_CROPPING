@@ -120,9 +120,10 @@ public class ItemManager : MonoBehaviour
         for (int i = 0;( items != null) && i < items.Length; i++)
         {
             
-            if (items[i].IsEnclosedBy(polygon))
+            if (items[i].IsEnclosedBy(polygon) && !items[i].isEnclosed())
             {
                 enclosedItems.Add(items[i]);
+                items[i].SetEnclosed(true);
             }
         }
         return GoalManager.instance.ScoreItemsAndDetermineColor(enclosedItems);
@@ -134,7 +135,7 @@ public class ItemManager : MonoBehaviour
         
         for (int i = 0; i < numberOfItems; i++)
         {
-            allSolved = allSolved && items[i].isUsedForScore();
+            allSolved = allSolved && items[i].isEnclosed();
         }
 
         if (allSolved)
