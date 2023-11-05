@@ -52,7 +52,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 7821038941287920463}
   enableMovement: 1
   startDirection: {x: 0, y: 1}
-  speed: 5
+  speed: 4
 --- !u!114 &7172759288723542658
 MonoBehaviour:
   m_ObjectHideFlags: 0

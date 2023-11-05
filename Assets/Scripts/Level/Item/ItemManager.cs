@@ -19,6 +19,8 @@ public class ItemManager : MonoBehaviour
 
     public static ItemManager instance;
 
+    public int padding = 5;
+    
     private Random myRandom;
     
     void Start()
@@ -33,10 +35,10 @@ public class ItemManager : MonoBehaviour
             Vector3 cameraCenter = mainCamera.transform.position;
             Bounds cameraBounds = new Bounds(cameraCenter, new Vector3(cameraWidth, cameraHeight, 0));
 
-            minY = (int) cameraBounds.min.y;
-            minX = (int) cameraBounds.min.x;
-            maxY = (int) cameraBounds.max.y;
-            maxX = (int) cameraBounds.max.x;
+            minY = (int) cameraBounds.min.y+padding;
+            minX = (int)cameraBounds.min.x + padding;
+            maxY = (int) cameraBounds.max.y-padding;
+            maxX = (int) cameraBounds.max.x-padding;
         }
         else
         {
@@ -113,17 +115,17 @@ public class ItemManager : MonoBehaviour
 
     private Color _scoreItemsAndDetermineColor(Vector3[] polygon)
     {
-        List<Item> enclosedGoals = new List<Item>();
+        List<Item> enclosedItems = new List<Item>();
         
         for (int i = 0;( items != null) && i < items.Length; i++)
         {
             
             if (items[i].IsEnclosedBy(polygon))
             {
-                enclosedGoals.Add(items[i]);
+                enclosedItems.Add(items[i]);
             }
         }
-        return GoalManager.instance.ScoreItemsAndDetermineColor(enclosedGoals);
+        return GoalManager.instance.ScoreItemsAndDetermineColor(enclosedItems);
     }
     
 }

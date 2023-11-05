@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 115633456215150635}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -89.1, y: 1.5878713, z: -0.082774974}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27348f237088f7d49adb53fe0869f98c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goalPrefab: {fileID: 7704968707365860050, guid: 42ea802bd65048f40aab748c5131f52a, type: 3}
-  numberOfGoals: 10
+  itemPrefab: {fileID: 7704968707365860050, guid: 42ea802bd65048f40aab748c5131f52a, type: 3}
+  numberOfItems: 10
