@@ -79,14 +79,28 @@ public class ItemManager : MonoBehaviour
     
     private void OnEncloseVertices(IntersectionArgs args)
     {
-        if (args.points.Length < 7)
+        if (args.points.Length < 5)
         {
+            bool hasBeenUsed = false;
+            
             Vector3[] okCase = new Vector3[args.points.Length];
-            for (int i = 0; i < args.points.Length; i++) 
+            for (int i = 0; i < args.points.Length; i++)
             {
+                hasBeenUsed = hasBeenUsed || args.points[i].wasUsed;
                 okCase[i] = new Vector3(args.points[i].position.x, args.points[i].position.y);
+                
             }
-            EncloseArea(okCase);
+
+            if (!hasBeenUsed)
+            {
+                for (int i = 0; i < args.points.Length; i++)
+                {
+                    args.points[i].wasUsed = true;
+                }
+                EncloseArea(okCase);    
+            }
+            
+            
         }
     }
     

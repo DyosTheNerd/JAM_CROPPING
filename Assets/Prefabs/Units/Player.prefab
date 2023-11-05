@@ -52,7 +52,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 7821038941287920463}
   enableMovement: 1
   startDirection: {x: 0, y: 1}
-  speed: 10
+  speed: 5
 --- !u!114 &7172759288723542658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,7 +266,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 15
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 5, y: 5, z: 0}
@@ -370,7 +370,7 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 26
   m_Time: 10
   m_PreviewTimeScale: 1
   m_Parameters:

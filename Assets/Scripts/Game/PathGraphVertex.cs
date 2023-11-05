@@ -17,7 +17,8 @@ namespace Game
         private PathGraphVertex left = null ;
         
         private PathGraphVertex right = null;
-        
+
+        public bool wasUsed = false;
         
         public PathGraphVertex(Vector2 point)
         {
