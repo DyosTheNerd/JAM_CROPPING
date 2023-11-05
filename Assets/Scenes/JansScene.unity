@@ -206,7 +206,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 474545703}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.4175
+  m_Size: 0.29583332
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -419,7 +419,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 800}
+  m_SizeDelta: {x: 0, y: 1200}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &81287393
 MonoBehaviour:
@@ -433,7 +433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b9f070ac8155344a5b12e04c54b4fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoresLoaded: 10
+  scoresLoaded: 30
   _scorePrefab: {fileID: 8883185305344454026, guid: f60790353099a6b43bf1165b82d1e73e, type: 3}
   _nameSubmission: {fileID: 665918444}
   _scoreDisplay: {fileID: 78323828}
@@ -500,9 +500,9 @@ RectTransform:
   m_Father: {fileID: 1283105422}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -17, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &171202593
 MonoBehaviour:
@@ -2110,14 +2110,14 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 10
+  m_ScrollSensitivity: 20
   m_Viewport: {fileID: 171202592}
   m_HorizontalScrollbar: {fileID: 2120167508}
   m_VerticalScrollbar: {fileID: 19884622}
   m_HorizontalScrollbarVisibility: 1
-  m_VerticalScrollbarVisibility: 0
+  m_VerticalScrollbarVisibility: 2
   m_HorizontalScrollbarSpacing: -3
-  m_VerticalScrollbarSpacing: -3
+  m_VerticalScrollbarSpacing: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2666,9 +2666,9 @@ RectTransform:
   m_Father: {fileID: 1283105422}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -17, y: 20}
+  m_SizeDelta: {x: 0, y: 20}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &2120167508
 MonoBehaviour:
