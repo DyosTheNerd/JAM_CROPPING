@@ -1,19 +1,24 @@
 // Copyright (c) Marvin Woelke 2023 //
 // Line v1.0.0
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-[RequireComponent(typeof(EdgeCollider2D))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class Line : MonoBehaviour
 {
     //private EdgeCollider2D _edgeCollider;
 
+    [FormerlySerializedAs("edgeCollider")]
     [Header("References")]
-    [SerializeField] private EdgeCollider2D edgeCollider;
-    [SerializeField] private LineRenderer lineRenderer;
+    [SerializeField] private BoxCollider2D boxCollider;
 
+    [SerializeField]
+    private float traceWidth;
+    
     [Header("Settings")]
     public float colliderEnableDelay = 0.1f;
 
@@ -30,7 +35,7 @@ public class Line : MonoBehaviour
     {
         // TODO Distance!
         yield return new WaitForSeconds(colliderEnableDelay);
-        edgeCollider.enabled = true;
+        boxCollider.enabled = true;
     }
 
     public void Initialize(Vector2 pointStart, Vector2 pointEnd)
@@ -42,12 +47,26 @@ public class Line : MonoBehaviour
     {
         points = linePoints;
 
-        edgeCollider.SetPoints(new List<Vector2> { start, end });
 
-        lineRenderer.SetPosition(0, start);
-        lineRenderer.SetPosition(1, end);
+
+        InitializeBox(start, end);
+        
     }
 
+    private void InitializeBox(Vector2 start, Vector2 end)
+    {
+        float edgeDist = traceWidth * 0.5f;
+        float top = Math.Max(start.y + edgeDist, end.y + edgeDist);
+        float bottom =  Math.Min(start.y - edgeDist, end.y - edgeDist);
+        float left = Math.Min(start.x - edgeDist, end.x - edgeDist);
+        float right = Math.Max(start.x + edgeDist, end.x + edgeDist);
+
+        transform.localScale = new Vector3(right - left, top - bottom, 0);
+
+        transform.position = new Vector3((left + right) / 2, (top + bottom) / 2, 0);
+        boxCollider.enabled = false;
+    }
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag(MAIN.TAGS.PLAYER))

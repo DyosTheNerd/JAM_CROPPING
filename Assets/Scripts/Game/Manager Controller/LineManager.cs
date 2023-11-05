@@ -99,7 +99,6 @@ public class LineManager : MonoBehaviour
             line.Initialize(linePoints);
             line.colliderEnableDelay = colliderEnableDelay;
 
-            InitializeCorner(point);
             
             Debug.Log($"Line added: '{LastLinePoint} TO {point}'", line);
         }
@@ -111,17 +110,15 @@ public class LineManager : MonoBehaviour
         return linePoints;
     }
 
-    /** To keep the corner sharp */
-    private void InitializeCorner(Vector2 point)
-    {
-        Transform newCorner = Instantiate(CornerPrefab);
-        newCorner.position = new Vector3(point.x, point.y, 0);
-        newCorner.SetParent(lineContainer);
-    }
+
     
     
-    public void AddNewLineIntersection(Vector2 intersection, Line line)
+    public void AddNewLineIntersection(Vector2 collisionIntersection, Line line)
     {
+        bool isVertical = line.start.x == line.end.x; 
+        
+        Vector2 intersection = isVertical? new Vector2(line.start.x,collisionIntersection.y) : new Vector2(collisionIntersection.x,line.start.y); 
+        
         AddNewLinePoint(intersection);
 
         _lines[_lines.Count - 1].intersectedLine = line;
@@ -141,7 +138,7 @@ public class LineManager : MonoBehaviour
                 remTest.Add(_lines[i].end);
                 //_lines[i].end = intersection;
                 intersectionTest.Add(intersection);
-                Debug.Break();
+                
                 break;
             }
         }
