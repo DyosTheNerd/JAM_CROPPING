@@ -1,8 +1,4 @@
-/* Copyright (c) Marvin Woelke
-* PauseManager 2023
-*/
 
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
