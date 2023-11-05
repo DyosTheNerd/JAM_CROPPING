@@ -15,6 +15,7 @@ public class MenuManager : MonoBehaviour
     private MenuData _currentMenu;
     private Button _lastActiveButton;
     private Button _activeColorButton;
+    private int colorArrayIndex = 0;
 
 
     /* The colors for the collor selector.
@@ -36,6 +37,11 @@ public class MenuManager : MonoBehaviour
         Open("Color");
     }
 
+    public void pickColorArrayIndex(int n)
+    {
+        colorArrayIndex = n;
+    }
+
 
     public void adjustColors()
     {
@@ -48,7 +54,9 @@ public class MenuManager : MonoBehaviour
     public void setActiveButtonColor()
     {
         Debug.Log(new Color(red, green, blue).ToString());
-        _activeColorButton.gameObject.GetComponent<Image>().color = new Color(red, green, blue);
+        Color c = new Color(red, green, blue);
+        Colors.colorList[colorArrayIndex] = c;
+        _activeColorButton.gameObject.GetComponent<Image>().color = c;
     }
 
 
