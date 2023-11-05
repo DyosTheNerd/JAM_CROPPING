@@ -10,6 +10,8 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
+    public static int lastScore = -1;
+    
     [SerializeField] public int scoresLoaded = 10;
     private const string _projectId = "cropodilian";
     private static readonly string _firebaseURL =
@@ -27,6 +29,8 @@ public class ScoreManager : MonoBehaviour
     public delegate void GetScoreCallback(Dictionary<string, ScoreModel> scores);
 
 
+
+    
     public static void postScore(ScoreModel score, PostScoreCallback callback)
     {
         RestClient.Post<ScoreModel>($"{_firebaseURL}scores.json", score)
@@ -142,6 +146,7 @@ public class ScoreManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        finalScore = lastScore;
         _scoreDisplay.text = finalScore.ToString();
         updateScores();
     }

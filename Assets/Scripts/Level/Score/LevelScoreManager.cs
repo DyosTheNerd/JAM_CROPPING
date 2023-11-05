@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Design.Serialization;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelScoreManager: MonoBehaviour
 {
@@ -26,7 +27,7 @@ public class LevelScoreManager: MonoBehaviour
     
     private void PrepareEnd()
     {
-        
+        ScoreManager.lastScore = score;
     }
 
     private void ScoreGoal(Goal g)
