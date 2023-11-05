@@ -110,7 +110,7 @@ public class ItemManager : MonoBehaviour
     {
         Color areaColor = _scoreItemsAndDetermineColor(polygon);
         AreaManager.instance.DrawArea(areaColor,polygon);
-        
+        CheckEndGame();
     }
 
     private Color _scoreItemsAndDetermineColor(Vector3[] polygon)
@@ -127,5 +127,22 @@ public class ItemManager : MonoBehaviour
         }
         return GoalManager.instance.ScoreItemsAndDetermineColor(enclosedItems);
     }
+
+    private void CheckEndGame()
+    {
+        bool allSolved = true;
+        
+        for (int i = 0; i < numberOfItems; i++)
+        {
+            allSolved = allSolved && items[i].isUsedForScore();
+        }
+
+        if (allSolved)
+        {
+            LevelManager.instance.triggerLevelEnd();
+        }
+        
+    }
+    
     
 }
