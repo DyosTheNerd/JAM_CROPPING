@@ -8,7 +8,7 @@ namespace Game
 {
     public class PathGraphVertex
     {
-        private Vector2 position;
+        public Vector2 position;
 
         private PathGraphVertex top = null;
         
@@ -22,6 +22,29 @@ namespace Game
         public PathGraphVertex(Vector2 point)
         {
             position = point;
+        }
+
+        public PathGraphVertex traceBack(PathGraphVertex source)
+        {
+            if (source == top)
+            {
+                Debug.Log("From top for " + position);
+                return left ?? bottom ?? right;
+            }
+
+            if (source == left)
+            {
+                Debug.Log("From left for " + position);
+                return bottom ?? right ?? top;
+            }
+
+            if (source == bottom)
+            {
+                Debug.Log("From bottom for " + position);
+                return right ?? top ?? left;
+            }
+            Debug.Log("From right for " + position);
+            return top ?? left ?? bottom;
         }
 
         public void intersectWith(Line line)
@@ -47,17 +70,17 @@ namespace Game
             {
                 if (line.myVertex1.position.x < position.x)
                 {
-                    line.myVertex1.left = this;
-                    line.myVertex2.right = this;
-                    left = line.myVertex2;
-                    right = line.myVertex1;
+                    line.myVertex1.right = this;
+                    line.myVertex2.left = this;
+                    left = line.myVertex1;
+                    right = line.myVertex2;
                 }
                 else
                 {
-                    line.myVertex2.left = this;
-                    line.myVertex1.right = this;
-                    left = line.myVertex1;
-                    right = line.myVertex2;
+                    line.myVertex2.right = this;
+                    line.myVertex1.left = this;
+                    left = line.myVertex2;
+                    right = line.myVertex1;
                 }
             }
         }

@@ -28,7 +28,7 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        if (Vector2.Distance(this.transform.position, LineManager.Instance.LastLinePoint.end) >= inputDelayDisntace)
+        if (Vector2.Distance(this.transform.position, LineManager.Instance.lastVertex.position) >= inputDelayDisntace)
         {
             Vector2 newInputAxis = new Vector2(Input.GetAxisRaw(MAIN.INPUT.AXIS.HORIZONTAL), Input.GetAxisRaw(MAIN.INPUT.AXIS.VERTICAL));
 

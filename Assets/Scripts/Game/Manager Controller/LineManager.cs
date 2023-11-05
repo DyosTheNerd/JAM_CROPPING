@@ -11,21 +11,21 @@ public class LineManager : MonoBehaviour
     private List<LinePoints> _lines = new List<LinePoints>();
     private List<PathGraphVertex> _vertices = new List<PathGraphVertex>();
 
-    [Header("References")]
-    [SerializeField] private Transform lineContainer;
+    [Header("References")] [SerializeField]
+    private Transform lineContainer;
+
     [SerializeField] private Line linePrefab;
     [SerializeField] private Transform CornerPrefab;
 
-    [Header("Settings")]
-    [SerializeField] private bool debug = true;
+    [Header("Settings")] [SerializeField] private bool debug = true;
     [SerializeField] private float colliderEnableDelay = 0.1f;
 
     public delegate void EncloseEvent(IntersectionArgs data);
 
     public event EncloseEvent OnEnclose;
 
-    public PathGraphVertex lastVertex => _vertices[^1]; 
-    public LinePoints LastLinePoint => _lines[_lines.Count - 1];
+    public PathGraphVertex lastVertex => _vertices[^1];
+  
     //public Line LastLine => _lines[_lines.Count - 1];
 
     Vector2 intersectionTest = new Vector2();
@@ -61,7 +61,7 @@ public class LineManager : MonoBehaviour
                 Gizmos.DrawSphere(intersectionTest, 1.2f);
             }
 
-            if( remTest != null)
+            if (remTest != null)
             {
                 Gizmos.color = Color.cyan;
                 Gizmos.DrawSphere(remTest, 1.2f);
@@ -89,71 +89,118 @@ public class LineManager : MonoBehaviour
 
         PathGraphVertex vert = new PathGraphVertex(point);
 
-        
-            
+
         if (_lines.Count > 0)
         {
             vert.addNeighbour(lastVertex);
             // Instantiate new line between the last point in the list and the current point.
             Line line = Instantiate<Line>(linePrefab, lineContainer);
 
-            linePoints = new LinePoints(LastLinePoint.end, point);
+            linePoints = new LinePoints(lastVertex.position, point);
 
             line.Initialize(linePoints);
             line.SetVertices(lastVertex, vert);
             line.colliderEnableDelay = colliderEnableDelay;
 
-            
-            
-            Debug.Log($"Line added: '{LastLinePoint} TO {point}'", line);
+
+           
         }
         else
         {
             linePoints = new LinePoints(point);
         }
-            
-        
+
+
         _lines.Add(linePoints);
 
         _vertices.Add(vert);
-        
+
         return linePoints;
     }
-    
+
     public void AddNewLineIntersection(Vector2 collisionIntersection, Line line)
     {
-        bool isVertical = line.start.x == line.end.x; 
-        
-        Vector2 intersection = isVertical? new Vector2(line.start.x,collisionIntersection.y) : new Vector2(collisionIntersection.x,line.start.y); 
-        
+        PathGraphVertex start = lastVertex;
+
+        bool isVertical = line.start.x == line.end.x;
+
+        Vector2 intersection = isVertical
+            ? new Vector2(line.start.x, collisionIntersection.y)
+            : new Vector2(collisionIntersection.x, line.start.y);
+
         AddNewLinePoint(intersection);
 
         lastVertex.intersectWith(line);
+
+        SplitLine(line, lastVertex);
+
+        List<PathGraphVertex> result = new List<PathGraphVertex>();
+
+
+        PathGraphVertex toFind = lastVertex;
+
+        PathGraphVertex current = start;
+        PathGraphVertex comingFrom = lastVertex;
+
+        result.Add(toFind);
+
+        int iterations = 0;
         
-        _lines[_lines.Count - 1].intersectedLine = line;
-
-        List<Vector2> result = new List<Vector2>();
-        result.Add(intersection);
-
-        for (int i = _lines.Count - 2; i > 0; i--)
+        while (current != toFind && current != null && iterations < _vertices.Count)
         {
-            result.Add(_lines[i].end);
+            
+            result.Add(current);
 
-            //if (_lines[i].isIntersection)
-            //    _lines[i].intersectedLine.
-
-            if (_lines[i].end == line.end)
-            {
-                remTest= _lines[i].end;
-                //_lines[i].end = intersection;
-                intersectionTest =intersection;
-                
-                break;
-            }
+            PathGraphVertex next = current.traceBack(comingFrom);
+            comingFrom = current;
+            current = next;
+            iterations += 1;
         }
 
-        drawTest = result;
-        OnEnclose?.Invoke(new IntersectionArgs(result.ToArray()));
+        List<Vector2> newDrawTest = new List<Vector2>();
+
+        for (int i = 0; i < result.Count; i++)
+        {
+            newDrawTest.Add(result[i].position);
+        }
+
+        remTest = result[0].position;
+        intersectionTest = result[^1].position;
+
+
+        drawTest = newDrawTest;
+        //OnEnclose?.Invoke(new IntersectionArgs(result.ToArray()));
+    }
+
+    void SplitLine(Line line, PathGraphVertex vert)
+    {
+        _lines.Remove(line.points);
+        
+
+        Line line1 = Instantiate<Line>(linePrefab, lineContainer);
+
+        LinePoints linePoints1 = new LinePoints(line.myVertex1.position, vert.position);
+
+        line1.Initialize(linePoints1);
+        line1.SetVertices(line.myVertex1, vert);
+        line1.colliderEnableDelay = colliderEnableDelay;
+        
+
+        _lines.Add(linePoints1);
+        
+        Line line2 = Instantiate<Line>(linePrefab, lineContainer);
+
+        LinePoints linePoints2 = new LinePoints(line.myVertex2.position, vert.position);
+
+        line2.Initialize(linePoints2);
+        line2.SetVertices(line.myVertex2, vert);
+        line2.colliderEnableDelay = colliderEnableDelay;
+        
+
+        _lines.Add(linePoints2);
+        
+
+        Destroy(line);
     }
 }
 
