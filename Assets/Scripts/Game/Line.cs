@@ -78,10 +78,6 @@ public class Line : MonoBehaviour
     {
         if (collision.CompareTag(MAIN.TAGS.PLAYER))
         {
-            //Line line = collision.GetComponent<Line>();
-
-            Debug.Log($"Player: {points.start} - {points.end}", this);
-            //LineManager.Instance.AddNewLinePoint(collision.transform.position);
             LineManager.Instance.AddNewLineIntersection(collision.transform.position, this);
         }
     }
