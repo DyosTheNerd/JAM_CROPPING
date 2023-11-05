@@ -115,7 +115,6 @@ public class ItemManager : MonoBehaviour
     {
         List<Item> enclosedGoals = new List<Item>();
         
-        
         for (int i = 0;( items != null) && i < items.Length; i++)
         {
             
@@ -124,14 +123,7 @@ public class ItemManager : MonoBehaviour
                 enclosedGoals.Add(items[i]);
             }
         }
-
-        if (enclosedGoals.Count > 0)
-        {
-
-            return GoalManager.instance.ScoreItemsAndDetermineColor(enclosedGoals);
-        }
-        
-        return Colors.grey;
+        return GoalManager.instance.ScoreItemsAndDetermineColor(enclosedGoals);
     }
     
 }
