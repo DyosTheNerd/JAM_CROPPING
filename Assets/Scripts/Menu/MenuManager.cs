@@ -14,11 +14,43 @@ public class MenuManager : MonoBehaviour
 {
     private MenuData _currentMenu;
     private Button _lastActiveButton;
+    private Button _activeColorButton;
+
+
+    /* The colors for the collor selector.
+     * Are manipulated by the color sliders. 
+     */
+    public float red = 0, green = 0, blue = 0;
 
     [SerializeField] private List<MenuData> menus;
+    [SerializeField] private List<Slider> colorSliders;
+    [SerializeField] private Button _colorPickerButton;
 
     public MenuData CurrentMenu => _currentMenu;
     //public MenuData CurrentMenu { get { return _currentMenu; } }
+
+
+    public void pickColor(Button button)
+    {
+        _activeColorButton = button;
+        Open("Color");
+    }
+
+
+    public void adjustColors()
+    {
+        red = colorSliders[0].value;
+        green = colorSliders[1].value;
+        blue = colorSliders[2].value;
+        _colorPickerButton.gameObject.GetComponent<Image>().color = new Color(red, green, blue);
+    }
+
+    public void setActiveButtonColor()
+    {
+        Debug.Log(new Color(red, green, blue).ToString());
+        _activeColorButton.gameObject.GetComponent<Image>().color = new Color(red, green, blue);
+    }
+
 
     private void Start()
     {
