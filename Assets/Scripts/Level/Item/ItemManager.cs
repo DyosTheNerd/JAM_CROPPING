@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Game;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = Unity.Mathematics.Random;
@@ -44,6 +45,9 @@ public class ItemManager : MonoBehaviour
         
         
         instance = this;
+
+        LineManager.Instance.OnEnclose += OnEncloseVertices; 
+        
         GenerateLevel();
     }
     
@@ -72,6 +76,34 @@ public class ItemManager : MonoBehaviour
         myRandom = LevelManager.instance.ItemsRandom;
     }
     
+    
+    private void OnEncloseVertices(IntersectionArgs args)
+    {
+        if (args.points.Length < 5)
+        {
+            bool hasBeenUsed = false;
+            
+            Vector3[] okCase = new Vector3[args.points.Length];
+            for (int i = 0; i < args.points.Length; i++)
+            {
+                hasBeenUsed = hasBeenUsed || args.points[i].wasUsed;
+                okCase[i] = new Vector3(args.points[i].position.x, args.points[i].position.y);
+                
+            }
+
+            if (!hasBeenUsed)
+            {
+                for (int i = 0; i < args.points.Length; i++)
+                {
+                    args.points[i].wasUsed = true;
+                }
+                EncloseArea(okCase);    
+            }
+            
+            
+        }
+    }
+    
     public void EncloseArea(Vector3[] polygon)
     {
         Color areaColor = _scoreItemsAndDetermineColor(polygon);
@@ -83,7 +115,6 @@ public class ItemManager : MonoBehaviour
     {
         List<Item> enclosedGoals = new List<Item>();
         
-        
         for (int i = 0;( items != null) && i < items.Length; i++)
         {
             
@@ -92,14 +123,7 @@ public class ItemManager : MonoBehaviour
                 enclosedGoals.Add(items[i]);
             }
         }
-
-        if (enclosedGoals.Count > 0)
-        {
-
-            return GoalManager.instance.ScoreItemsAndDetermineColor(enclosedGoals);
-        }
-        
-        return Colors.grey;
+        return GoalManager.instance.ScoreItemsAndDetermineColor(enclosedGoals);
     }
     
 }
