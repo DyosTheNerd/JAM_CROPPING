@@ -491,6 +491,10 @@ PrefabInstance:
       propertyPath: CornerPrefab
       value: 
       objectReference: {fileID: 7273500832464711999, guid: 1e3b1ebe103f5014288d7f8fbc4b5b9c, type: 3}
+    - target: {fileID: 4964159259527511299, guid: 8935663c55abb84459836d262ac6474d, type: 3}
+      propertyPath: colliderEnableDelay
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

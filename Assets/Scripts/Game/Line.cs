@@ -1,9 +1,7 @@
-// Copyright (c) Marvin Woelke 2023 //
-// Line v1.0.0
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Game;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -66,6 +64,15 @@ public class Line : MonoBehaviour
         transform.position = new Vector3((left + right) / 2, (top + bottom) / 2, 0);
         boxCollider.enabled = false;
     }
+
+    public void SetVertices(PathGraphVertex v1,PathGraphVertex v2)
+    {
+        myVertex1 = v1;
+        myVertex2 = v2;
+    }
+
+    public PathGraphVertex myVertex1;
+    public PathGraphVertex myVertex2;
     
     private void OnTriggerEnter2D(Collider2D collision)
     {

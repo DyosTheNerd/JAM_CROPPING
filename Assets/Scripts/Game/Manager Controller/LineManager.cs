@@ -1,9 +1,7 @@
-// Copyright (c) Marvin Woelke 2023 //
-// LineManager v1.0.0
-
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Game;
 using UnityEngine;
 
 public class LineManager : MonoBehaviour
@@ -11,7 +9,7 @@ public class LineManager : MonoBehaviour
     public static LineManager Instance { get; private set; }
 
     private List<LinePoints> _lines = new List<LinePoints>();
-    //private List<Line> _lines = new List<Line>();
+    private List<PathGraphVertex> _vertices = new List<PathGraphVertex>();
 
     [Header("References")]
     [SerializeField] private Transform lineContainer;
@@ -25,12 +23,13 @@ public class LineManager : MonoBehaviour
     public delegate void EncloseEvent(IntersectionArgs data);
 
     public event EncloseEvent OnEnclose;
-    
+
+    public PathGraphVertex lastVertex => _vertices[^1]; 
     public LinePoints LastLinePoint => _lines[_lines.Count - 1];
     //public Line LastLine => _lines[_lines.Count - 1];
 
-    List<Vector2> intersectionTest = new List<Vector2>();
-    List<Vector2> remTest = new List<Vector2>();
+    Vector2 intersectionTest = new Vector2();
+    Vector2 remTest = new Vector2();
     List<Vector2> drawTest = new List<Vector2>();
 
     private void OnDrawGizmos()
@@ -56,16 +55,16 @@ public class LineManager : MonoBehaviour
             }
 
 
-            foreach (Vector2 p in intersectionTest)
+            if (intersectionTest != null)
             {
                 Gizmos.color = Color.white;
-                Gizmos.DrawSphere(p, 1.2f);
+                Gizmos.DrawSphere(intersectionTest, 1.2f);
             }
 
-            foreach (Vector2 p in remTest)
+            if( remTest != null)
             {
                 Gizmos.color = Color.cyan;
-                Gizmos.DrawSphere(p, 1.2f);
+                Gizmos.DrawSphere(remTest, 1.2f);
             }
 
             foreach (Vector2 p in drawTest)
@@ -88,30 +87,38 @@ public class LineManager : MonoBehaviour
     {
         LinePoints linePoints;
 
-        // checks if the line point array has more than 0 points (to create a line!)
+        PathGraphVertex vert = new PathGraphVertex(point);
+
+        
+            
         if (_lines.Count > 0)
         {
+            vert.addNeighbour(lastVertex);
             // Instantiate new line between the last point in the list and the current point.
             Line line = Instantiate<Line>(linePrefab, lineContainer);
 
             linePoints = new LinePoints(LastLinePoint.end, point);
 
             line.Initialize(linePoints);
+            line.SetVertices(lastVertex, vert);
             line.colliderEnableDelay = colliderEnableDelay;
 
+            
             
             Debug.Log($"Line added: '{LastLinePoint} TO {point}'", line);
         }
         else
+        {
             linePoints = new LinePoints(point);
-
+        }
+            
+        
         _lines.Add(linePoints);
 
+        _vertices.Add(vert);
+        
         return linePoints;
     }
-
-
-    
     
     public void AddNewLineIntersection(Vector2 collisionIntersection, Line line)
     {
@@ -121,6 +128,8 @@ public class LineManager : MonoBehaviour
         
         AddNewLinePoint(intersection);
 
+        lastVertex.intersectWith(line);
+        
         _lines[_lines.Count - 1].intersectedLine = line;
 
         List<Vector2> result = new List<Vector2>();
@@ -135,9 +144,9 @@ public class LineManager : MonoBehaviour
 
             if (_lines[i].end == line.end)
             {
-                remTest.Add(_lines[i].end);
+                remTest= _lines[i].end;
                 //_lines[i].end = intersection;
-                intersectionTest.Add(intersection);
+                intersectionTest =intersection;
                 
                 break;
             }
