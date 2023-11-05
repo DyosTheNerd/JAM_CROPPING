@@ -2,12 +2,15 @@
 * PauseManager 2023
 */
 
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
     [SerializeField] private KeyCode pauseKey = KeyCode.Escape;
+    [SerializeField] private KeyCode quitKey = KeyCode.Q;
     [Space]
     public bool canBePaused;
 
@@ -26,6 +29,11 @@ public class PauseManager : MonoBehaviour
                 onResume?.Invoke();
             else
                 onPause?.Invoke();
+        }
+
+        if (Input.GetKeyDown(quitKey))
+        {
+            SceneManager.LoadScene("MenuScene");
         }
     }
 }
