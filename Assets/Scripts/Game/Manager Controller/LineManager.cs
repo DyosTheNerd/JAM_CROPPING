@@ -169,7 +169,7 @@ public class LineManager : MonoBehaviour
 
 
         drawTest = newDrawTest;
-        //OnEnclose?.Invoke(new IntersectionArgs(result.ToArray()));
+        OnEnclose?.Invoke(new IntersectionArgs(result.ToArray()));
     }
 
     void SplitLine(Line line, PathGraphVertex vert)
@@ -206,10 +206,10 @@ public class LineManager : MonoBehaviour
 
 public struct IntersectionArgs
 {
-    public IntersectionArgs(Vector2[] points)
+    public IntersectionArgs(PathGraphVertex[] points)
     {
         this.points = points;
     }
 
-    public Vector2[] points { get; private set; }
+    public PathGraphVertex[] points { get; private set; }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Game;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = Unity.Mathematics.Random;
@@ -44,6 +45,9 @@ public class ItemManager : MonoBehaviour
         
         
         instance = this;
+
+        LineManager.Instance.OnEnclose += OnEncloseVertices; 
+        
         GenerateLevel();
     }
     
@@ -70,6 +74,20 @@ public class ItemManager : MonoBehaviour
     private void initializeRandom()
     {
         myRandom = LevelManager.instance.ItemsRandom;
+    }
+    
+    
+    private void OnEncloseVertices(IntersectionArgs args)
+    {
+        if (args.points.Length < 7)
+        {
+            Vector3[] okCase = new Vector3[args.points.Length];
+            for (int i = 0; i < args.points.Length; i++) 
+            {
+                okCase[i] = new Vector3(args.points[i].position.x, args.points[i].position.y);
+            }
+            EncloseArea(okCase);
+        }
     }
     
     public void EncloseArea(Vector3[] polygon)
