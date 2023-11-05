@@ -21,6 +21,12 @@ public class LevelScoreManager: MonoBehaviour
     private void Start()
     {
         GoalManager.instance.OnGoalSolved += ScoreGoal;
+        LevelManager.instance.PrepareLevelEnd += PrepareEnd;
+    }
+    
+    private void PrepareEnd()
+    {
+        
     }
 
     private void ScoreGoal(Goal g)

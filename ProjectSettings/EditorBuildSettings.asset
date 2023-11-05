@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/RealGameScene.unity
     guid: e199c7d4ed2913e4c848990e49a230c9
+  - enabled: 1
+    path: Assets/Scenes/JansScene.unity
+    guid: 4ff7ac840d209ca49af8a7bcd660758c
   m_configObjects: {}
