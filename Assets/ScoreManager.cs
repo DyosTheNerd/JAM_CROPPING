@@ -6,7 +6,8 @@ using FullSerializer;
 using Proyecto26;
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private SingleScoreDisplay _scorePrefab;
     [SerializeField] private TMP_InputField _nameSubmission;
     [SerializeField] private TextMeshProUGUI _scoreDisplay;
+    [SerializeField] private Button _scoreButton;
 
     public int finalScore;
 
@@ -80,12 +82,11 @@ public class ScoreManager : MonoBehaviour
 
     public void processScores(Dictionary<string, ScoreModel> dict)
     {
-        ScoreModel[] valuesArray = dict.Values.ToArray<ScoreModel>();
         List<ScoreModel> valuesList = dict.Values.ToList<ScoreModel>();
-        valuesList.OrderByDescending(score=>score);
+        List<ScoreModel> ordered = valuesList.OrderByDescending(val => val.score).ToList<ScoreModel>();
 
         int rank = 1;
-        foreach (ScoreModel model in valuesList)
+        foreach (ScoreModel model in ordered)
         {
             createNewScoreElement(rank, model);
             rank++;
@@ -106,6 +107,14 @@ public class ScoreManager : MonoBehaviour
         score.score = finalScore;
         score.username = _nameSubmission.text;
         postScore(score, updateScores);
+        _scoreButton.interactable = false;
+        _nameSubmission.interactable = false;
+    }
+
+
+    public void onMenuButtonPress()
+    {
+        SceneManager.LoadScene("MenuScene");
     }
 
 

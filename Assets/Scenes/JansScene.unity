@@ -206,7 +206,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 474545703}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.535
+  m_Size: 0.4175
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -437,6 +437,7 @@ MonoBehaviour:
   _scorePrefab: {fileID: 8883185305344454026, guid: f60790353099a6b43bf1165b82d1e73e, type: 3}
   _nameSubmission: {fileID: 665918444}
   _scoreDisplay: {fileID: 78323828}
+  _scoreButton: {fileID: 1582335581}
   finalScore: 666
 --- !u!114 &81287394
 MonoBehaviour:
@@ -1394,7 +1395,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 81287393}
         m_TargetAssemblyTypeName: ScoreManager, Assembly-CSharp
-        m_MethodName: debugAddScoreElement
+        m_MethodName: debugRandomizeFinalScore
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1608,7 +1609,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4497294322799583549, guid: f60790353099a6b43bf1165b82d1e73e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4497294322799583549, guid: f60790353099a6b43bf1165b82d1e73e, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1616,11 +1617,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4497294322799583549, guid: f60790353099a6b43bf1165b82d1e73e, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4497294322799583549, guid: f60790353099a6b43bf1165b82d1e73e, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 883
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4497294322799583549, guid: f60790353099a6b43bf1165b82d1e73e, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1656,11 +1657,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4497294322799583549, guid: f60790353099a6b43bf1165b82d1e73e, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 441.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4497294322799583549, guid: f60790353099a6b43bf1165b82d1e73e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4497294322799583549, guid: f60790353099a6b43bf1165b82d1e73e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2412,7 +2413,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 81287393}
         m_TargetAssemblyTypeName: ScoreManager, Assembly-CSharp
-        m_MethodName: debugRandomizeFinalScore
+        m_MethodName: onMenuButtonPress
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
