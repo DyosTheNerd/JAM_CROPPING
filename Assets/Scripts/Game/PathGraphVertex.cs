@@ -29,22 +29,22 @@ namespace Game
         {
             if (source == top)
             {
-                Debug.Log("From top for " + position);
+                
                 return left ?? bottom ?? right;
             }
 
             if (source == left)
             {
-                Debug.Log("From left for " + position);
+
                 return bottom ?? right ?? top;
             }
 
             if (source == bottom)
             {
-                Debug.Log("From bottom for " + position);
+                
                 return right ?? top ?? left;
             }
-            Debug.Log("From right for " + position);
+            
             return top ?? left ?? bottom;
         }
 
