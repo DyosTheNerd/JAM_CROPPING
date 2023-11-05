@@ -124,6 +124,14 @@ public class LineManager : MonoBehaviour
 
         bool isVertical = line.start.x == line.end.x;
 
+        bool movesVertical = start.position.x == collisionIntersection.x;
+
+        if (isVertical == movesVertical)
+        {
+            // ignore collisions in the same direction
+            return;
+        }
+        
         Vector2 intersection = isVertical
             ? new Vector2(line.start.x, collisionIntersection.y)
             : new Vector2(collisionIntersection.x, line.start.y);
