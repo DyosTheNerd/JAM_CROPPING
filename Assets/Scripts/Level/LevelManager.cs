@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = Unity.Mathematics.Random;
 
 public class LevelManager : MonoBehaviour
@@ -31,4 +32,18 @@ public class LevelManager : MonoBehaviour
         goalsRandom = new Random(levelMasterRandom.NextUInt());
         itemsRandom = new Random(levelMasterRandom.NextUInt());
     }
+
+    public delegate void LevelEnd();
+
+    public event LevelEnd PrepareLevelEnd;
+    
+    
+    
+    public void triggerLevelEnd()
+    {
+        PrepareLevelEnd?.Invoke();
+
+        SceneManager.LoadScene("JansScene");
+    }
+    
 }

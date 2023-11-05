@@ -21,12 +21,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] internal Vector2 startDirection = Vector2.up;
     [SerializeField] private float speed = 100f;
 
+    private Camera mainCamera;
+    
     private void Start()
     {
         _inputManager = GetComponent<InputManager>();
         _inputManager.OnDirectionChanged += InputManager_DirectionChanged;
 
         LineManager.Instance.AddNewLinePoint(this.transform.position);
+        mainCamera = Camera.main;
     }
 
     private void OnDisable()
@@ -38,8 +41,36 @@ public class PlayerController : MonoBehaviour
     {
         if (enableMovement)
             this.transform.Translate(_inputManager.direction * speed * Time.deltaTime);
+
+        if (isOutsideOfScreen())
+        {
+            if (wasInside)
+            {
+                LevelManager.instance.triggerLevelEnd();
+            }
+        }
+        else
+        {
+            wasInside = true;
+        }
+
     }
 
+    private bool wasInside = false;
+    
+    private bool isOutsideOfScreen()
+    {
+        Vector3 screenPoint = mainCamera.WorldToViewportPoint(transform.position);
+
+        // Check if the object's position is outside the camera's view frustum
+        if (screenPoint.x < 0 || screenPoint.x > 1 || screenPoint.y < 0 || screenPoint.y > 1 || screenPoint.z < 0)
+        {
+            return true;
+        }
+
+        return false;
+    }
+    
     private void InputManager_DirectionChanged()
     {
         LineManager.Instance.AddNewLinePoint(this.transform.position);
