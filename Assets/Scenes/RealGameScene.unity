@@ -240,6 +240,10 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 7172759288723542658, guid: 37612474a5d22ff4c87677fb4533b1ef, type: 3}
+      propertyPath: screenInputSource
+      value: 
+      objectReference: {fileID: 641574232}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -343,6 +347,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2546466bf6af047499b19d173decb778, type: 3}
+--- !u!114 &641574232 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3217482231180426060, guid: 0a92b0a89831aef4497573a84796ea5d, type: 3}
+  m_PrefabInstance: {fileID: 332149390}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05b977afe91838941bdf7b3f683be3d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &701927117
 GameObject:
   m_ObjectHideFlags: 0

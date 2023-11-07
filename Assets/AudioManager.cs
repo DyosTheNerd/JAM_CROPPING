@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -22,6 +23,16 @@ public class AudioManager : MonoBehaviour
     void Start()
     {
         DontDestroyOnLoad(this);
+        if (!isPlaying)
+        {
+            audioScource.Play();
+            isPlaying = true;
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        isPlaying = false;
     }
 
     // Update is called once per frame

@@ -18,12 +18,16 @@ public class InputManager : MonoBehaviour
     public Vector2 direction { get; private set; }
     public Vector2 inputAxis { get; private set; }
 
+    public GameLevelScreen screenInputSource;
     public event Action OnDirectionChanged;
 
+
+    
     private void Start()
     {
         _player = GetComponent<PlayerController>();
         direction = _player.startDirection;
+        screenInputSource.ClickableClicked += OnClickOnGame;
     }
 
     private void Update()
@@ -37,10 +41,13 @@ public class InputManager : MonoBehaviour
                 SwitchDirection(clockwise);
             }
 
-            if (newInputAxis != inputAxis)
-                if (HandleNewInput(newInputAxis))
-                    OnDirectionChanged?.Invoke();
+
         }
+    }
+
+    public void OnClickOnGame()
+    {
+        SwitchDirection(clockwise);
     }
 
     private void SwitchDirection(bool clockwise)

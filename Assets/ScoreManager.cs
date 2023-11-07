@@ -118,19 +118,10 @@ public class ScoreManager : MonoBehaviour
     }
 
 
-    public void debugAddScoreElement()
-    {
-        ScoreModel score = new ScoreModel();
-        score.score = UnityEngine.Random.Range(0, 1000000);
-        int rank = UnityEngine.Random.Range(0, 100);
-        createNewScoreElement(100, score);
-    }
 
-
-    public void debugRandomizeFinalScore()
+    public void restartLastLevel()
     {
-        finalScore = UnityEngine.Random.Range(0, 1000000);
-        _scoreDisplay.text = finalScore.ToString();
+        SceneManager.LoadScene("RealGameScene");
     }
 
 
