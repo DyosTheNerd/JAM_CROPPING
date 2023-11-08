@@ -1,29 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
+
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 
 public class SeedInitializer : MonoBehaviour
 {
-    private Slider _slider;
+    [SerializeField] private TMP_InputField _inputField;
     
     void Start()
     {
-        _slider = GetComponent<Slider>();
-
-        SeedSingleton.getInstance().seed = (uint)_slider.value;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
         
+        
+        uint randomSeed = SeedSingleton.getInstance().getInitialRandomSeed();
+
+        _inputField.text = "" + randomSeed;
+
+        SeedSingleton.getInstance().seed = randomSeed;
     }
 
-    public void OnUpdateSlider()
+    
+    public void OnUpdateSeed()
     {
-        SeedSingleton.getInstance().seed = (uint)_slider.value;
+        SeedSingleton.getInstance().seed = uint.Parse(_inputField.text);
     }
     
 }

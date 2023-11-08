@@ -118,6 +118,11 @@ public class ScoreManager : MonoBehaviour
     }
 
 
+    public void startNextLevel()
+    {
+        SeedSingleton.getInstance().randomizeSeed();
+        SceneManager.LoadScene("RealGameScene");
+    }
 
     public void restartLastLevel()
     {
