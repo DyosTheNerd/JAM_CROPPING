@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Game;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = Unity.Mathematics.Random;
@@ -10,16 +9,21 @@ public class ItemManager : MonoBehaviour
 
     [FormerlySerializedAs("numberOfGoals")] [SerializeField] private int numberOfItems;
 
-    private int minY = -9;
-    private int maxY = 9;
-    private int minX = -103;
-    private int maxX = -73;
+    public float minY = -9;
+    public float maxY = 9;
+    public float minX = -103;
+    public float maxX = -73;
+
+    private int cellsX = 12;
+    private int cellsY = 9;
     
     private Item[] items;
 
     public static ItemManager instance;
 
-    public int padding = 5;
+    [SerializeField] private Transform insideArea;
+    
+    
     
     private Random myRandom;
     
@@ -35,10 +39,10 @@ public class ItemManager : MonoBehaviour
             Vector3 cameraCenter = mainCamera.transform.position;
             Bounds cameraBounds = new Bounds(cameraCenter, new Vector3(cameraWidth, cameraHeight, 0));
 
-            minY = (int) cameraBounds.min.y+padding;
-            minX = (int)cameraBounds.min.x + padding;
-            maxY = (int) cameraBounds.max.y-padding;
-            maxX = (int) cameraBounds.max.x-padding;
+            minY = insideArea.position.y - insideArea.lossyScale.y/2f;
+            minX = insideArea.position.x - insideArea.lossyScale.x/2f;
+            maxY = insideArea.position.y + insideArea.lossyScale.y/2f;
+            maxX = insideArea.position.x + insideArea.lossyScale.x/2f;
         }
         else
         {
@@ -57,13 +61,16 @@ public class ItemManager : MonoBehaviour
     public void GenerateLevel()
     {
         initializeRandom();
+
+        isTaken = new bool[cellsX * cellsY];
+        
         items = new Item[numberOfItems];
         if (itemPrefab != null)
         {
             for (int i = 0; i < numberOfItems; i++)
             {
                 Transform newObject = Instantiate(itemPrefab);
-                newObject.position = new Vector3(myRandom.NextInt(minX,maxX),myRandom.NextInt(minY,maxY), 0);
+                newObject.position = getNextItemPosition();
                 SpriteRenderer newSprite = newObject.GetComponent<SpriteRenderer>();
                 newSprite.color = Colors.colorList[myRandom.NextInt(0,Colors.colorList.Length)];
                 items[i] = newObject.GetComponent<Item>();
@@ -73,6 +80,28 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+    private bool[] isTaken;
+
+    private float padding =2f;
+    private Vector3 getNextItemPosition()
+    {
+        int x = -10;
+        int y = -10;
+        for (int i = 0; i < 3; i++)
+        {
+            x = myRandom.NextInt(0, cellsX);
+            y = myRandom.NextInt(0, cellsY);
+            if (!isTaken[x + cellsX * y])
+            {
+                isTaken[x + cellsX * y] = true;
+
+                break;
+                
+            }
+        }
+        return   new Vector3(x* ((maxX - minX) - padding*2f) / (cellsX*1f) +minX +padding + myRandom.NextFloat(-0.125f,+0.125f),y* ((maxX - minX) - padding*2f) / (cellsX*1f)+minY+padding+ myRandom.NextFloat(-0.125f,+0.125f), 0);
+    }
+    
     private void initializeRandom()
     {
         myRandom = LevelManager.instance.ItemsRandom;
